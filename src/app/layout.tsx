@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Poppins } from "next/font/google";
 import "./globals.css";
+import { CartProvider } from './context/page'
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -14,8 +15,8 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Beauty Hub",
-  description: "Your premium beauty destination",
+  title: "Beauty Hub - Luxury Beauty Products & Spa Services",
+  description: "Discover premium beauty products and luxurious spa services at Beauty Hub. Transform your beauty routine with our curated collection of skincare, haircare, and body care products.",
 };
 
 export default function RootLayout({
@@ -26,7 +27,9 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={`${playfair.variable} ${poppins.variable} font-poppins bg-gradient-to-b from-gray-900 via-black to-gray-900 text-white antialiased`}>
-        {children}
+        <CartProvider>
+          {children}
+        </CartProvider>
       </body>
     </html>
   );

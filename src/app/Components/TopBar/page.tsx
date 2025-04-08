@@ -56,9 +56,38 @@ const TopBar = () => {
               <Link href="/" className="text-amber-400 font-medium text-lg hover:text-white transition-colors">
                 Home
               </Link>
-              <Link href="/products" className="text-amber-400 font-medium text-lg hover:text-white transition-colors">
-                Products
-              </Link>
+              
+              {/* Products Dropdown */}
+              <div className="relative">
+                <button 
+                  onClick={() => toggleDropdown('products')}
+                  className="text-amber-400 font-medium text-lg hover:text-white transition-colors flex items-center"
+                >
+                  Products
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                
+                {activeDropdown === 'products' && (
+                  <div className="absolute z-10 mt-2 w-56 rounded-md shadow-lg bg-gray-800 ring-1 ring-black ring-opacity-5">
+                    <div className="py-1" role="menu" aria-orientation="vertical">
+                      <Link href="/products/facial" className="block px-4 py-2 text-base text-amber-100 hover:bg-gray-700 hover:text-white" role="menuitem">
+                        Facial Products
+                      </Link>
+                      <Link href="/products/hair" className="block px-4 py-2 text-base text-amber-100 hover:bg-gray-700 hover:text-white" role="menuitem">
+                        Hair Products
+                      </Link>
+                      <Link href="/products/skin" className="block px-4 py-2 text-base text-amber-100 hover:bg-gray-700 hover:text-white" role="menuitem">
+                        Skin Products
+                      </Link>
+                      <Link href="/products" className="block px-4 py-2 text-base text-amber-100 hover:bg-gray-700 hover:text-white" role="menuitem">
+                        All Products
+                      </Link>
+                    </div>
+                  </div>
+                )}
+              </div>
               
               {/* Spa Services Dropdown */}
               <div className="relative">

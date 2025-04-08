@@ -1,15 +1,20 @@
-import React from 'react'
-import TopBar from './Components/TopBar/page'
-import Slider from './Components/Slider/page'
+'use client';
 
-const page = () => {
+import React from 'react';
+import Slider from './Components/Slider/page';
+import Navbar from './Components/Navbar/page';
+import ProductCategories from './Components/productsMain/page';
+
+export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black">
-      <TopBar />
+      <Navbar />
       <Slider />
-      {/* Additional content will go here */}
+      <ProductCategories />
+      
+      <div className="container mx-auto px-4 py-12">
+        {/* Additional content can be added here */}
+      </div>
     </div>
-  )
+  );
 }
-
-export default page

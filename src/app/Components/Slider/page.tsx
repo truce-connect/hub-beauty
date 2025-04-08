@@ -134,17 +134,29 @@ const Slider = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 }}
-                  className="text-5xl md:text-6xl font-serif font-bold mb-6 text-white tracking-wide"
-                  style={{ textShadow: '0 2px 4px rgba(0,0,0,0.3)' }}
+                  className="text-5xl md:text-7xl font-playfair font-bold mb-6 text-white tracking-wide"
+                  style={{ 
+                    textShadow: '0 2px 10px rgba(0,0,0,0.5)',
+                    letterSpacing: '0.05em',
+                    fontWeight: '700',
+                    fontFamily: 'var(--font-playfair)'
+                  }}
                 >
-                  <span className="text-amber-300">{slides[currentSlide].title}</span>
+                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-300 via-amber-200 to-amber-300">
+                  {slides[currentSlide].title}
+                  </span>
                 </motion.h2>
                 <motion.p 
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 }}
-                  className="text-lg md:text-xl mb-8 text-white/90 font-light leading-relaxed"
-                  style={{ fontFamily: "'Cormorant Garamond', serif" }}
+                  className="text-lg md:text-2xl mb-8 text-white/90 font-light leading-relaxed"
+                  style={{ 
+                    fontFamily: 'var(--font-playfair)',
+                    letterSpacing: '0.02em',
+                    lineHeight: '1.6',
+                    textShadow: '0 1px 3px rgba(0,0,0,0.3)'
+                  }}
                 >
                   {slides[currentSlide].description}
                 </motion.p>
@@ -154,7 +166,7 @@ const Slider = () => {
                   transition={{ delay: 0.6 }}
                 >
                   <Link href={slides[currentSlide].buttonLink}>
-                    <button className="bg-gradient-to-r from-amber-400 to-amber-600 hover:from-amber-500 hover:to-amber-700 text-white font-medium py-3 px-10 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg border border-amber-300/30">
+                    <button className="bg-gradient-to-r from-amber-400 to-amber-600 hover:from-amber-500 hover:to-amber-700 text-white font-medium py-3 px-10 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg border border-amber-300/30 text-lg tracking-wide">
                       {slides[currentSlide].buttonText}
                     </button>
                   </Link>
