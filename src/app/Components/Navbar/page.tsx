@@ -262,7 +262,7 @@ const Navbar = () => {
               </button>
             ) : (
               <Link
-                href="/Components/Login"
+                href="/Login"
                 className="text-white hover:text-amber-300 transition-colors flex items-center"
               >
                 <svg
@@ -412,10 +412,10 @@ const Navbar = () => {
                   className="w-full text-left py-2 text-white hover:text-amber-300"
                 >
                   Logout
-                </button>
+                </button>  
               ) : (
                     <Link
-                      href="/login"
+                      href="/Login"
                      className="block py-2 text-white hover:text-amber-300"
                                onClick={toggleMenu}
                                  >
