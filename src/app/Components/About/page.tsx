@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
+import teamImage from '/public/images/bb2.jpg'; // Static import for consistency
 
 const About = () => {
   const containerVariants = {
@@ -62,12 +63,12 @@ const About = () => {
             className="relative h-96 rounded-2xl overflow-hidden shadow-lg border-2 border-amber-100"
           >
             <Image
-              src="/images/bb2.jpg"
+              src={teamImage}
               alt="SkinFix Beauty Hub Team"
-              width={3840}
-              height={2160}
+              width={600} // Optimized dimensions
+              height={400}
               priority
-              className="object-cover"
+              className="object-cover w-full h-full"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-amber-900/10 to-transparent" />
           </motion.div>
@@ -212,16 +213,14 @@ const About = () => {
 
             {/* CTA */}
             <motion.div variants={itemVariants} className="ml-12">
-              <Link href="/Support/Contact" passHref legacyBehavior>
-                <a>
-                  <motion.button
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.97 }}
-                    className="bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-700 hover:to-amber-600 text-white font-medium py-3 px-8 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl"
-                  >
-                    Book Consultation
-                  </motion.button>
-                </a>
+              <Link href="/Support/Contact">
+                <motion.button
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  className="bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-700 hover:to-amber-600 text-white font-medium py-3 px-8 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl"
+                >
+                  Book Consultation
+                </motion.button>
               </Link>
             </motion.div>
           </motion.div>

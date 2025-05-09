@@ -4,12 +4,12 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { useCart } from '../../context/page';
+import { useCart } from '@/app/Components/Navbar/context/CartProvider';
 import Notification from '../../Components/Notification';
 
 // Define a type for the skin product
 interface SkinProduct {
-  id: number;
+  id: string;
   name: string;
   price: number;
   image: string;
@@ -19,80 +19,81 @@ interface SkinProduct {
 // Sample skin products data
 const skinProducts: SkinProduct[] = [
   {
-    id: 1,
+    id: '1',
     name: 'Luxury Body Cream',
     price: 44.99,
     image: '/product-images/healthy-glow.jpg',
     description: 'Rich, luxurious body cream with shea butter and essential oils for 24-hour hydration.',
   },
   {
-    id: 2,
+    id: '2',
     name: 'Body Scrub',
     price: 34.99,
     image: '/product-images/whitening-hydrating.jpg',
     description: 'Exfoliating body scrub with natural ingredients to reveal smooth, glowing skin.',
   },
   {
-    id: 3,
+    id: '3',
     name: 'Hand Cream',
     price: 24.99,
     image: '/product-images/glow.jpg',
     description: 'Nourishing hand cream that provides long-lasting moisture and protection.',
   },
   {
-    id: 4,
+    id: '4',
     name: 'Body Oil',
     price: 39.99,
     image: '/product-images/halfcastoil.jpg',
     description: 'Silky body oil that absorbs quickly and leaves skin soft and radiant.',
   },
   {
-    id: 5,
+    id: '5',
     name: 'Body Wash',
     price: 29.99,
     image: '/product-images/face-wash.jpg',
     description: 'Gentle, moisturizing body wash with natural cleansers and botanical extracts.',
   },
   {
-    id: 6,
+    id: '6',
     name: 'Body Butter',
     price: 49.99,
     image: '/product-images/morocan.jpg',
     description: 'Rich body butter with cocoa and shea butter for intense moisture and softness.',
-  }
+  },
 ];
 
 const SkinProductsPage = () => {
   const { addToCart } = useCart();
   const [notification, setNotification] = useState({
     isVisible: false,
-    productName: ''
+    productName: '',
   });
-  
+
   const handleAddToCart = (product: SkinProduct) => {
     addToCart({
       id: product.id,
-      title: product.name,
-      subtitle: product.description,
+      name: product.name, // Fixed: Changed 'title' to 'name'
+      price: product.price,
       image: product.image,
-      price: `£${product.price.toFixed(2)}`,
-      category: 'skin'
+      description: product.description, // Fixed: Changed 'subtitle' to 'description'
+      category: 'skin',
+      quantity: 1,
     });
     setNotification({
       isVisible: true,
-      productName: product.name
+      productName: product.name,
     });
   };
-  
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black py-16">
-      <Notification 
+      <Notification
         message="Product added to cart!"
         isVisible={notification.isVisible}
         onClose={() => setNotification({ ...notification, isVisible: false })}
         productName={notification.productName}
       />
-      
+
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center mb-12">
           <h1 className="text-4xl md:text-5xl font-playfair font-bold">
@@ -101,7 +102,7 @@ const SkinProductsPage = () => {
             </span>
           </h1>
           <Link href="/products">
-            <motion.button 
+            <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="bg-gradient-to-r from-amber-400 to-amber-600 hover:from-amber-500 hover:to-amber-700 text-white font-medium py-2 px-6 rounded-full transition-all duration-300 shadow-lg border border-amber-300/30 text-sm tracking-wide"
@@ -145,7 +146,7 @@ const SkinProductsPage = () => {
                       View Details
                     </button>
                   </Link>
-                  <motion.button 
+                  <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => handleAddToCart(product)}
@@ -163,4 +164,4 @@ const SkinProductsPage = () => {
   );
 };
 
-export default SkinProductsPage; 
+export default SkinProductsPage;

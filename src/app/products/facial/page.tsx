@@ -1,98 +1,78 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { useCart } from '../../context/page';
+import { useCart } from '../../Components/Navbar/context/CartProvider';
 import Notification from '../../Components/Notification';
-
-// Define a type for the facial product
-interface FacialProduct {
-  id: number;
-  name: string;
-  price: number;
-  image: string;
-  description: string;
-}
-
-// Sample facial products data
-const facialProducts: FacialProduct[] = [
-  {
-    id: 1,
-    name: 'Luxury Facial Cream',
-    price: 49.99,
-    image: '/product-images/glutatione-face-cream.jpg',
-    description: 'A luxurious facial cream with gold particles and rare ingredients for ultimate skin rejuvenation.',
-  },
-  {
-    id: 2,
-    name: 'Anti-Aging Serum',
-    price: 79.99,
-    image: '/product-images/glutatione.jpg',
-    description: 'Advanced anti-aging serum that reduces fine lines and wrinkles while improving skin elasticity.',
-  },
-  {
-    id: 3,
-    name: 'Hydrating Face Mask',
-    price: 34.99,
-    image: '/product-images/cleansing-tone.jpg',
-    description: 'Deeply hydrating face mask with hyaluronic acid for plump, glowing skin.',
-  },
-  {
-    id: 4,
-    name: 'Gold-Infused Eye Cream',
-    price: 59.99,
-    image: '/product-images/asian-white.jpg',
-    description: 'Luxurious eye cream with gold particles to reduce dark circles and puffiness.',
-  },
-  {
-    id: 5,
-    name: 'Vitamin C Brightening Serum',
-    price: 45.99,
-    image: '/product-images/collagene-xtra-white.jpg',
-    description: 'Brightening serum with Vitamin C to even skin tone and reduce hyperpigmentation.',
-  },
-  {
-    id: 6,
-    name: 'Facial Cleanser',
-    price: 24.99,
-    image: '/product-images/face-wash.jpg',
-    description: 'Gentle facial cleanser that removes impurities without stripping natural oils.',
-  }
-];
+import { FacialProduct, CartItem } from '@/types';
 
 const FacialProductsPage = () => {
   const { addToCart } = useCart();
   const [notification, setNotification] = useState({
     isVisible: false,
-    productName: ''
+    productName: '',
   });
-  
+  const [products, setProducts] = useState<FacialProduct[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch('/api/products/facial');
+        if (!response.ok) {
+          throw new Error('Failed to fetch products');
+        }
+        const data: FacialProduct[] = await response.json();
+        setProducts(data);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'An error occurred');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
   const handleAddToCart = (product: FacialProduct) => {
-    addToCart({
-      id: product.id,
-      title: product.name,
-      subtitle: product.description,
+    const cartItem: CartItem = {
+      id: product.id.toString(),
+      name: product.name,
+      price: product.price,
+      category: 'facial',
       image: product.image,
-      price: `£${product.price.toFixed(2)}`,
-      category: 'facial'
-    });
+      description: product.description,
+      quantity: 1,
+      title: product.name,
+      subtitle: product.description.slice(0, 50) + '...'
+    };
+    addToCart(cartItem);
     setNotification({
       isVisible: true,
-      productName: product.name
+      productName: product.name,
     });
   };
-  
+
+  if (loading) {
+    return <div className="container mx-auto py-8 text-white">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="container mx-auto py-8 text-red-500">Error: {error}</div>;
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black py-16">
-      <Notification 
+      <Notification
         message="Product added to cart!"
         isVisible={notification.isVisible}
         onClose={() => setNotification({ ...notification, isVisible: false })}
         productName={notification.productName}
       />
-      
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center mb-12">
           <h1 className="text-4xl md:text-5xl font-playfair font-bold">
@@ -101,7 +81,7 @@ const FacialProductsPage = () => {
             </span>
           </h1>
           <Link href="/products">
-            <motion.button 
+            <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="bg-gradient-to-r from-amber-400 to-amber-600 hover:from-amber-500 hover:to-amber-700 text-white font-medium py-2 px-6 rounded-full transition-all duration-300 shadow-lg border border-amber-300/30 text-sm tracking-wide"
@@ -110,9 +90,8 @@ const FacialProductsPage = () => {
             </motion.button>
           </Link>
         </div>
-
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {facialProducts.map((product) => (
+          {products.map((product) => (
             <motion.div
               key={product.id}
               initial={{ opacity: 0, y: 20 }}
@@ -145,7 +124,7 @@ const FacialProductsPage = () => {
                       View Details
                     </button>
                   </Link>
-                  <motion.button 
+                  <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => handleAddToCart(product)}
@@ -163,4 +142,4 @@ const FacialProductsPage = () => {
   );
 };
 
-export default FacialProductsPage; 
+export default FacialProductsPage;

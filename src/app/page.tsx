@@ -1,14 +1,13 @@
-'use client';
+"use client";
 
-import React from 'react';
-import Slider from './Components/Slider/page';
-import Navbar from './Components/Navbar/page';
-import ProductCategories from './Components/productsMain/page';
-import SpaServices from './spa-services/page';
-import Support from './Components/Support/page'
-import About from './Components/About/page'
-import Footer from './Components/Footer/page'
-
+import React from "react";
+import Slider from "./Components/Slider/page";
+import Navbar from "./Components/Navbar/page";
+import ProductCategories from "./Components/productsMain/page";
+import SpaServices from "./spa-services/page";
+import Support from "./Components/Support/page";
+import About from "./Components/About/page";
+import Footer from "./Components/Footer/page";
 
 export default function Home() {
   return (
@@ -17,11 +16,10 @@ export default function Home() {
       <Slider />
       <ProductCategories />
       <SpaServices />
-      <Support/>
-      <About/>
-      <Footer/>
-      
-    
+      <Support />
+      <About />
+      <Footer />
+
       <div className="container mx-auto px-4 py-12">
         {/* Additional content can be added here */}
       </div>

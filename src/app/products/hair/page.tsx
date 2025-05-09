@@ -1,71 +1,99 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { useCart } from '../../context/page';
+import { useCart } from '../../Components/Navbar/context/CartProvider';
+import Notification from '../../Components/Notification';
 
-// Sample hair products data
-const hairProducts = [
+// Sample facial products data
+const facialProducts = [
   {
     id: 1,
-    name: 'Luxury Hair Oil',
-    price: 39.99,
-    image: '/product-images/hair-oil.jpg',
-    description: 'Nourishing hair oil with argan and coconut oils for smooth, shiny hair.',
+    name: 'Luxury Facial Cream',
+    price: 49.99,
+    image: '/product-images/glutatione-face-cream.jpg',
+    description: 'A luxurious facial cream with gold particles and rare ingredients for ultimate skin rejuvenation.',
   },
   {
     id: 2,
-    name: 'Hair Growth Serum',
-    price: 49.99,
-    image: '/product-images/hair-serum.jpg',
-    description: 'Advanced hair growth serum that promotes thicker, fuller hair.',
+    name: 'Anti-Aging Serum',
+    price: 79.99,
+    image: '/product-images/glutatione.jpg',
+    description: 'Advanced anti-aging serum that reduces fine lines and wrinkles while improving skin elasticity.',
   },
   {
     id: 3,
-    name: 'Hair Mask',
+    name: 'Hydrating Face Mask',
     price: 34.99,
-    image: '/product-images/hair-mask.jpg',
-    description: 'Deep conditioning hair mask for damaged and dry hair.',
+    image: '/product-images/cleansing-tone.jpg',
+    description: 'Deeply hydrating face mask with hyaluronic acid for plump, glowing skin.',
   },
   {
     id: 4,
-    name: 'Hair Shampoo',
-    price: 24.99,
-    image: '/product-images/hair-shampoo.jpg',
-    description: 'Gentle, sulfate-free shampoo for all hair types.',
+    name: 'Gold-Infused Eye Cream',
+    price: 59.99,
+    image: '/product-images/asian-white.jpg',
+    description: 'Luxurious eye cream with gold particles to reduce dark circles and puffiness.',
   },
   {
     id: 5,
-    name: 'Hair Conditioner',
-    price: 24.99,
-    image: '/product-images/hair-conditioner.jpg',
-    description: 'Moisturizing conditioner that detangles and softens hair.',
+    name: 'Vitamin C Brightening Serum',
+    price: 45.99,
+    image: '/product-images/collagene-xtra-white.jpg',
+    description: 'Brightening serum with Vitamin C to even skin tone and reduce hyperpigmentation.',
   },
   {
     id: 6,
-    name: 'Hair Styling Cream',
-    price: 29.99,
-    image: '/product-images/hair-styling.jpg',
-    description: 'Versatile styling cream for defined curls and manageable hair.',
-  }
+    name: 'Facial Cleanser',
+    price: 24.99,
+    image: '/product-images/face-wash.jpg',
+    description: 'Gentle facial cleanser that removes impurities without stripping natural oils.',
+  },
 ];
 
-const HairProductsPage = () => {
+const FacialProductsPage = () => {
   const { addToCart } = useCart();
-  
+  const [notification, setNotification] = useState({
+    isVisible: false,
+    productName: '',
+  });
+
+  const handleAddToCart = (product: { id: number; name: string; price: number; image: string; description: string }) => {
+    addToCart({
+      id: product.id.toString(),
+      name: product.name,
+      price: product.price,
+      image: product.image,
+      description: product.description,
+      category: 'facial', // Ensure category is passed
+      quantity: 1, // Default quantity
+    });
+    setNotification({
+      isVisible: true,
+      productName: product.name,
+    });
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black py-16">
+      <Notification
+        message="Product added to cart!"
+        isVisible={notification.isVisible}
+        onClose={() => setNotification({ ...notification, isVisible: false })}
+        productName={notification.productName}
+      />
+
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center mb-12">
           <h1 className="text-4xl md:text-5xl font-playfair font-bold">
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-300 via-amber-200 to-amber-300">
-              Hair Products
+              Facial Products
             </span>
           </h1>
           <Link href="/products">
-            <motion.button 
+            <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="bg-gradient-to-r from-amber-400 to-amber-600 hover:from-amber-500 hover:to-amber-700 text-white font-medium py-2 px-6 rounded-full transition-all duration-300 shadow-lg border border-amber-300/30 text-sm tracking-wide"
@@ -76,7 +104,7 @@ const HairProductsPage = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {hairProducts.map((product) => (
+          {facialProducts.map((product) => (
             <motion.div
               key={product.id}
               initial={{ opacity: 0, y: 20 }}
@@ -109,17 +137,10 @@ const HairProductsPage = () => {
                       View Details
                     </button>
                   </Link>
-                  <motion.button 
+                  <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    onClick={() => addToCart({
-                      id: product.id,
-                      title: product.name,
-                      subtitle: product.description,
-                      image: product.image,
-                      price: `£${product.price.toFixed(2)}`,
-                      category: 'hair'
-                    })}
+                    onClick={() => handleAddToCart(product)}
                     className="bg-gradient-to-r from-amber-400 to-amber-600 hover:from-amber-500 hover:to-amber-700 text-white font-medium py-1 px-4 rounded-full transition-all duration-300 text-sm"
                   >
                     Add to Cart
@@ -134,4 +155,4 @@ const HairProductsPage = () => {
   );
 };
 
-export default HairProductsPage; 
+export default FacialProductsPage;
